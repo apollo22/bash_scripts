@@ -1,0 +1,38 @@
+# Current problems:
+# $var in $old or $new will expand
+# Can be solved with exec ?
+
+old=$1
+new=$2
+
+old_string="\"$old\""
+new_string="\"$new\""
+
+I3_CONFIG_FILE=~/.config/i3/config
+
+# Check if old workspace exist in config file
+if [[ ! $( grep "set \$ws[0-9]* $old_string" ~/.config/i3/config | wc -l ) -eq 1 ]]; then
+  echo "Error: old workspace '$old' doesn't exist in configuration file"
+  exit -1
+fi
+
+# TODO: If $1="current" set $old to current workspace name
+# Check if new workspace doesn't exist in config file
+if [[ $( grep "set \$ws[0-9]* $new_string" ~/.config/i3/config | wc -l ) -gt 0 ]]; then
+  echo "Error: new workspace '$new' already exists in configuration file"
+  exit -1
+fi
+
+# TODO ? : check if workspace name is not already attributed in live config but not in config file
+
+# Get $old workspace number
+ws_num=$( cat $I3_CONFIG_FILE | grep "set \$ws[0-9]* $old_string" | grep -o '$ws[0-9]*' | grep -o '[0-9]*' )
+
+# Change workspace name
+i3-msg "rename workspace $old_string to $new_string" > /dev/null
+# Change workspace name in i3config
+sed -i "s/set \$ws$ws_num $old_string/set \$ws$ws_num $new_string/" $I3_CONFIG_FILE 
+# Reload i3 config file
+i3-msg "reload" > /dev/null
+
+
