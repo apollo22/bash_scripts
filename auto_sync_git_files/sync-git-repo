@@ -68,10 +68,11 @@ if [[ $# -eq 0 ]]; then # No folder is given to the function
   # Default to current folder, or closest parent folder with a .git folder in it.
   current_folder=$(pwd)
   while [[ ! -d .git ]]; do
-    echo no .git folder in $(pwd)
+    echo No .git folder in $(pwd)
     cd ..
-    echo moved to $(pwd)
+    echo Moved to parent directory: $(pwd)
   done
+  echo .git folder found in $(pwd)
   git_commit_all_files .
   cd $current_folder
 else # Folders where given
