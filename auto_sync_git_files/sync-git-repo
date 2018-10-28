@@ -65,8 +65,14 @@ function git_commit_all_files () {
 
 # Check if arguments are given
 if [[ $# -eq 0 ]]; then # No folder is given to the function
-  # Default to current folder
+  # Default to current folder, or closest parent folder with a .git folder in it.
+  current_folder=$(pwd)
+  while [[ ! -d .git ]]; do
+    echo no .git folder in $(pwd)
+    cd ..
+  done
   git_commit_all_files .
+  cd $current_folder
 else # Folders where given
   for folder in $@; do
     git_commit_all_files $folder
