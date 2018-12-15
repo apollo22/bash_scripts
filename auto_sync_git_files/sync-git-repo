@@ -76,6 +76,7 @@ if [[ $# -eq 0 ]]; then # No folder is given to the function
       exit 1
     fi
   done
+
   echo .git folder found in $(pwd)
   git_commit_all_files .
   cd $current_folder
