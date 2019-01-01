@@ -1,0 +1,167 @@
+Usage: ipa [global-options] dnsrecord-add DNSZONE NAME [options]
+
+Add new DNS resource record.
+Options:
+  -h, --help            show this help message and exit
+  --ttl=INT             Time to live
+  --setattr=STR         Set an attribute to a name/value pair. Format is attr=value. For multi-valued attributes, the command replaces the values already present.
+  --addattr=STR         Add an attribute/value pair. Format is attr=value. The attribute must be part of the schema.
+  --structured          Parse all raw DNS records and return them in a structured way
+  --all                 Retrieve and print all attributes from the server.  Affects command output.
+  --raw                 Print entries as stored on the server. Only affects output format.
+
+  A Record:
+    --a-rec=STR         Raw A records
+    --a-ip-address=STR  A IP Address
+    --a-create-reverse  Create reverse record for this IP Address
+
+  AAAA Record:
+    --aaaa-rec=STR      Raw AAAA records
+    --aaaa-ip-address=STR
+                        AAAA IP Address
+    --aaaa-create-reverse
+                        Create reverse record for this IP Address
+
+  A6 Record:
+    --a6-rec=STR        Raw A6 records
+    --a6-data=STR       A6 Record data
+
+  AFSDB Record:
+    --afsdb-rec=STR     Raw AFSDB records
+    --afsdb-subtype=INT
+                        AFSDB Subtype
+    --afsdb-hostname=DNSNAMEPARAM
+                        AFSDB Hostname
+
+  CERT Record:
+    --cert-rec=STR      Raw CERT records
+    --cert-type=INT     CERT Certificate Type
+    --cert-key-tag=INT  CERT Key Tag
+    --cert-algorithm=INT
+                        CERT Algorithm
+    --cert-certificate-or-crl=STR
+                        CERT Certificate/CRL
+
+  CNAME Record:
+    --cname-rec=STR     Raw CNAME records
+    --cname-hostname=DNSNAMEPARAM
+                        A hostname which this alias hostname points to
+
+  DLV Record:
+    --dlv-rec=STR       Raw DLV records
+    --dlv-key-tag=INT   DLV Key Tag
+    --dlv-algorithm=INT
+                        DLV Algorithm
+    --dlv-digest-type=INT
+                        DLV Digest Type
+    --dlv-digest=STR    DLV Digest
+
+  DNAME Record:
+    --dname-rec=STR     Raw DNAME records
+    --dname-target=DNSNAMEPARAM
+                        DNAME Target
+
+  DS Record:
+    --ds-rec=STR        Raw DS records
+    --ds-key-tag=INT    DS Key Tag
+    --ds-algorithm=INT  DS Algorithm
+    --ds-digest-type=INT
+                        DS Digest Type
+    --ds-digest=STR     DS Digest
+
+  KX Record:
+    --kx-rec=STR        Raw KX records
+    --kx-preference=INT
+                        Preference given to this exchanger. Lower values are more preferred
+    --kx-exchanger=DNSNAMEPARAM
+                        A host willing to act as a key exchanger
+
+  LOC Record:
+    --loc-rec=STR       Raw LOC records
+    --loc-lat-deg=INT   LOC Degrees Latitude
+    --loc-lat-min=INT   LOC Minutes Latitude
+    --loc-lat-sec=DECIMAL
+                        LOC Seconds Latitude
+    --loc-lat-dir=['N', 'S']
+                        LOC Direction Latitude
+    --loc-lon-deg=INT   LOC Degrees Longitude
+    --loc-lon-min=INT   LOC Minutes Longitude
+    --loc-lon-sec=DECIMAL
+                        LOC Seconds Longitude
+    --loc-lon-dir=['E', 'W']
+                        LOC Direction Longitude
+    --loc-altitude=DECIMAL
+                        LOC Altitude
+    --loc-size=DECIMAL  LOC Size
+    --loc-h-precision=DECIMAL
+                        LOC Horizontal Precision
+    --loc-v-precision=DECIMAL
+                        LOC Vertical Precision
+
+  MX Record:
+    --mx-rec=STR        Raw MX records
+    --mx-preference=INT
+                        Preference given to this exchanger. Lower values are more preferred
+    --mx-exchanger=DNSNAMEPARAM
+                        A host willing to act as a mail exchanger
+
+  NAPTR Record:
+    --naptr-rec=STR     Raw NAPTR records
+    --naptr-order=INT   NAPTR Order
+    --naptr-preference=INT
+                        NAPTR Preference
+    --naptr-flags=STR   NAPTR Flags
+    --naptr-service=STR
+                        NAPTR Service
+    --naptr-regexp=STR  NAPTR Regular Expression
+    --naptr-replacement=STR
+                        NAPTR Replacement
+
+  NS Record:
+    --ns-rec=STR        Raw NS records
+    --ns-hostname=DNSNAMEPARAM
+                        NS Hostname
+
+  PTR Record:
+    --ptr-rec=STR       Raw PTR records
+    --ptr-hostname=DNSNAMEPARAM
+                        The hostname this reverse record points to
+
+  SRV Record:
+    --srv-rec=STR       Raw SRV records
+    --srv-priority=INT  Lower number means higher priority. Clients will attempt to contact the server with the lowest-numbered priority they can reach.
+    --srv-weight=INT    Relative weight for entries with the same priority.
+    --srv-port=INT      SRV Port
+    --srv-target=DNSNAMEPARAM
+                        The domain name of the target host or '.' if the service is decidedly not available at this domain
+
+  SSHFP Record:
+    --sshfp-rec=STR     Raw SSHFP records
+    --sshfp-algorithm=INT
+                        SSHFP Algorithm
+    --sshfp-fp-type=INT
+                        SSHFP Fingerprint Type
+    --sshfp-fingerprint=STR
+                        SSHFP Fingerprint
+
+  TLSA Record:
+    --tlsa-rec=STR      Raw TLSA records
+    --tlsa-cert-usage=INT
+                        TLSA Certificate Usage
+    --tlsa-selector=INT
+                        TLSA Selector
+    --tlsa-matching-type=INT
+                        TLSA Matching Type
+    --tlsa-cert-association-data=STR
+                        TLSA Certificate Association Data
+
+  TXT Record:
+    --txt-rec=STR       Raw TXT records
+    --txt-data=STR      TXT Text Data
+
+  URI Record:
+    --uri-rec=STR       Raw URI records
+    --uri-priority=INT  Lower number means higher priority. Clients will
+                        attempt to contact the URI with the lowest-numbered priority they can reach.
+    --uri-weight=INT    Relative weight for entries with the same priority.
+    --uri-target=STR    Target Uniform Resource Identifier according to RFC 3986
