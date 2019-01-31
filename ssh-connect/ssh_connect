@@ -1,0 +1,52 @@
+#! /bin/bash
+
+USERNAME=$1
+HOST=$2
+PORT=$3
+
+# Configure local configuration path
+FOLDER_TO_SEND="pushed-config"
+RECEIVING_FOLDER=".jdorel"
+
+# Copy SSH Key
+  ssh-copy-id -i /home/jdorel/.config/ssh/machine-keys/id-rsa-4096.pub -p $PORT -o "PermitLocalCommand=no" $USERNAME@$HOST &> /dev/null &
+
+# Update config to push with ssh
+  ## Create necessary folders
+  mkdir -p ~/.config/ssh/$FOLDER_TO_SEND/.config/vim
+  mkdir -p ~/.config/ssh/$FOLDER_TO_SEND/.config/shells
+
+  ## Sync files
+  for file in .bash_logout .bash_profile .bashrc .zshrc; do
+    rsync -r ~/$file ~/.config/ssh/$FOLDER_TO_SEND/$file
+  done
+
+  ## Adapt XDG_CONFIG_HOME path
+  sed -i "s|XDG_CONFIG_HOME=\"\$HOME/.config\"|XDG_CONFIG_HOME=\"$RECEIVING_FOLDER/.config\"|" ~/.config/ssh/$FOLDER_TO_SEND/.bashrc
+
+  ## Sync local scripts
+  for file in vim-auto-sudo; do
+    rsync /usr/local/bin/$file ~/$file
+  done
+
+  # Add local 
+
+  ## Sync particular folders
+  rsync -r ~/.config/vim/ ~/.config/ssh/$FOLDER_TO_SEND/.config/vim/ --exclude="bundle/" --exclude="spell/"
+  rsync -r ~/.config/shells/ ~/.config/ssh/$FOLDER_TO_SEND/.config/shells --exclude="terminal_opening_message" --exclude="plugins/"
+
+# # Push shell configuration
+#   echo "$USERNAME $HOST $PORT $FOLDER_TO_SEND --> $RECEIVING_FOLDER" > /dev/pts/4
+#   ssh -o "PermitLocalCommand=no" $USERNAME@$HOST -p $PORT "mkdir -p \"$RECEIVING_FOLDER\"" -v
+#   # We need to create this folder because it won't be created by the following command
+#   # scp -r -o "PermitLocalCommand=no" -P $PORT ~/.config/ssh/$FOLDER_TO_SEND/* $USERNAME@$HOST:./$RECEIVING_FOLDER 
+#   # > /dev/null &
+#   # We need the /*, otherwise files wouldn't be updated
+
+# Create | Update | Command
+#    y   |   n    | folder folder
+#    y   |   n    | folder folder/
+#    y   |   n    | folder/ folder
+#    y   |   n    | folder/ folder/
+#  mkdir |   y    | folder/* folder 
+#  mkdir |   y    | folder/* folder/
